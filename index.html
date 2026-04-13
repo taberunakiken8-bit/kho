@@ -28,8 +28,10 @@ document.getElementById("orderNumber").innerText =
 
 document.getElementById("qrcode").innerHTML = "";
 
+let url = "https://taberunakiken8-bit.github.io/kho/customer.html?order=" + order;
+
 new QRCode(document.getElementById("qrcode"), {
-text: "customer.html?order=" + order,
+text: url,
 width: 200,
 height: 200
 });
