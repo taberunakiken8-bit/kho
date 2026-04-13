@@ -28,6 +28,17 @@ document.getElementById("message").innerText =
 "登録完了！料理ができたら通知します";
 }
 
+setInterval(checkFinish, 2000);
+
+function checkFinish(){
+let done = localStorage.getItem("finish_" + order);
+
+if(done === "done"){
+document.getElementById("message").innerText =
+"料理ができました！取りに来てください";
+}
+}
+
 </script>
 
 </body>
