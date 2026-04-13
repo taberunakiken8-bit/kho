@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>通知登録</title>
+</head>
+
+<body>
+
+<h1>通知登録</h1>
+
+<h2 id="orderNumber"></h2>
+
+<button onclick="register()">通知を受け取る</button>
+
+<p id="message"></p>
+
+<script>
+
+const params = new URLSearchParams(window.location.search);
+const order = params.get("order");
+
+document.getElementById("orderNumber").innerText =
+"注文番号：" + order;
+
+function register() {
+document.getElementById("message").innerText =
+"登録完了！料理ができたら通知します";
+}
+
+</script>
+
+</body>
+</html>

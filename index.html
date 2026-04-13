@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>フードコート注文管理</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+
+<h1>注文管理</h1>
+
+<button onclick="newOrder()">新規注文</button>
+
+<h2 id="orderNumber"></h2>
+
+<div id="qrcode"></div>
+
+<script>
+
+let order = 100;
+
+function newOrder() {
+order++;
+
+document.getElementById("orderNumber").innerText =
+"注文番号：" + order;
+
+document.getElementById("qrcode").innerHTML = "";
+
+new QRCode(document.getElementById("qrcode"), {
+text: "customer.html?order=" + order,
+width: 200,
+height: 200
+});
+}
+
+</script>
+
+</body>
+</html>
