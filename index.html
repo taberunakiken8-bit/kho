@@ -11,6 +11,7 @@
 <h1>注文管理</h1>
 
 <button onclick="newOrder()">新規注文</button>
+<button onclick="finishOrder()">料理完成</button>
 
 <h2 id="orderNumber"></h2>
 
@@ -35,6 +36,11 @@ text: url,
 width: 200,
 height: 200
 });
+}
+
+function finishOrder() {
+localStorage.setItem("finish_" + order, "done");
+alert("注文" + order + " 完成通知しました");
 }
 
 </script>
