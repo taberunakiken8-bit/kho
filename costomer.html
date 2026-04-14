@@ -15,7 +15,23 @@
 
 <p id="message"></p>
 
-<script>
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+apiKey: "AIzaSyC6RM9KBCyFA1wjpH5WsUx-dyYSBznySa0",
+authDomain: "food-court-f100b.firebaseapp.com",
+databaseURL: "https://food-court-f100b-default-rtdb.firebaseio.com",
+projectId: "food-court-f100b",
+storageBucket: "food-court-f100b.firebasestorage.app",
+messagingSenderId: "882661134824",
+appId: "1:882661134824:web:da0f95c1f124e8752f945d"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
 
 const params = new URLSearchParams(window.location.search);
 const order = params.get("order");
@@ -23,23 +39,21 @@ const order = params.get("order");
 document.getElementById("orderNumber").innerText =
 "注文番号：" + order;
 
-function register() {
-document.getElementById("message").innerText =
-"登録完了！料理ができたら通知します";
-}
+onValue(ref(db,'orders/' + order),(snapshot)=>{
 
-setInterval(checkFinish, 2000);
+const data = snapshot.val();
 
-function checkFinish(){
-let done = localStorage.getItem("finish_" + order);
+if(data && data.status === "done"){
 
-if(done === "done"){
 document.getElementById("message").innerText =
 "料理ができました！取りに来てください";
-}
+
 }
 
+});
+
 </script>
+
 
 </body>
 </html>
