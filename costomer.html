@@ -2,30 +2,39 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>通知登録</title>
+<title>注文状況</title>
 </head>
 
 <body>
 
-<h1>通知登録</h1>
+<h1>注文状況</h1>
 
 <h2 id="orderNumber"></h2>
 
-<button onclick="register()">通知を受け取る</button>
+<button onclick="requestNotification()">
+通知を許可する
+</button>
 
 <p id="message"></p>
+
+<div id="wait"></div>
 
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import {
+getDatabase,
+ref,
+onValue,
+get
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
-apiKey: "AIzaSyC6RM9KBCyFA1wjpH5WsUx-dyYSBznySa0",
+apiKey: "あなたのAPIキー",
 authDomain: "food-court-f100b.firebaseapp.com",
 databaseURL: "https://food-court-f100b-default-rtdb.firebaseio.com",
 projectId: "food-court-f100b",
-storageBucket: "food-court-f100b.firebasestorage.app",
+storageBucket: "food-court-f100b.appspot.com",
 messagingSenderId: "882661134824",
 appId: "1:882661134824:web:da0f95c1f124e8752f945d"
 };
@@ -40,7 +49,17 @@ const shop = params.get("shop");
 document.getElementById("orderNumber").innerText =
 "注文番号：" + order;
 
-<div id="wait"></div>
+window.requestNotification = function(){
+
+Notification.requestPermission().then(function(permission){
+
+if(permission === "granted"){
+alert("通知が許可されました");
+}
+
+});
+
+}
 
 onValue(ref(db,'orders/' + shop + '/' + order),(snapshot)=>{
 
@@ -49,14 +68,15 @@ const data = snapshot.val();
 if(data && data.status === "done"){
 
 document.getElementById("message").innerText =
-"料理ができました！取りに来てください";
+"料理ができました！";
+
+if(Notification.permission === "granted"){
+new Notification("料理ができました！注文番号：" + order);
+}
 
 }
 
 });
-
-
-import { get, child } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 function updateWait(){
 
@@ -83,9 +103,7 @@ document.getElementById("wait").innerText =
 
 setInterval(updateWait,2000);
 
-
 </script>
-
 
 </body>
 </html>
