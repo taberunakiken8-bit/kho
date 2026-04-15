@@ -40,6 +40,8 @@ const shop = params.get("shop");
 document.getElementById("orderNumber").innerText =
 "注文番号：" + order;
 
+<div id="wait"></div>
+
 onValue(ref(db,'orders/' + shop + '/' + order),(snapshot)=>{
 
 const data = snapshot.val();
@@ -52,6 +54,35 @@ document.getElementById("message").innerText =
 }
 
 });
+
+
+import { get, child } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+function updateWait(){
+
+get(ref(db,'orders/' + shop)).then((snapshot)=>{
+
+if(snapshot.exists()){
+
+const data = snapshot.val();
+
+const keys = Object.keys(data);
+
+keys.sort();
+
+const position = keys.indexOf(order);
+
+document.getElementById("wait").innerText =
+"現在 " + position + " 組待ち";
+
+}
+
+});
+
+}
+
+setInterval(updateWait,2000);
+
 
 </script>
 
