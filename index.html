@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<title>フードコート注文管理</title>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
 <script type="module">
 
@@ -8,11 +12,11 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/fireba
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
 
 const firebaseConfig = {
-apiKey: "AIzaSyC6RM9KBCyFA1wjpH5WsUx-dyYSBznySa0",
+apiKey: "あなたのAPIキー",
 authDomain: "food-court-f100b.firebaseapp.com",
 databaseURL: "https://food-court-f100b-default-rtdb.firebaseio.com",
 projectId: "food-court-f100b",
-storageBucket: "food-court-f100b.firebasestorage.app",
+storageBucket: "food-court-f100b.appspot.com",
 messagingSenderId: "882661134824",
 appId: "1:882661134824:web:da0f95c1f124e8752f945d"
 };
@@ -20,40 +24,11 @@ appId: "1:882661134824:web:da0f95c1f124e8752f945d"
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-window.finishOrder = function(){
-
-set(ref(db,'orders/' + shop + '/' + order),{
-status:"done"
-});
-
-alert("完成通知しました");
-
-}
-
-</script>
-
-<meta charset="UTF-8">
-<title>フードコート注文管理</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-</head>
-
-<body>
-
-<h1>注文管理</h1>
-
-<button onclick="newOrder()">新規注文</button>
-<button onclick="finishOrder()">料理完成</button>
-
-<h2 id="orderNumber"></h2>
-
-<div id="qrcode"></div>
-
-<script>
-
 let order = 100;
-const shop = "ramen";
+const shop = "ramen"; // 店舗名変更可
 
-function newOrder() {
+window.newOrder = function(){
+
 order++;
 
 set(ref(db,'orders/' + shop + '/' + order),{
@@ -66,21 +41,42 @@ document.getElementById("orderNumber").innerText =
 
 document.getElementById("qrcode").innerHTML = "";
 
-let url = "https://taberunakiken8-bit.github.io/kho/costomer.html?order=" + shop + "&order=" + order;
+let url =
+"https://taberunakiken8-bit.github.io/kho/customer.html?shop="
++ shop + "&order=" + order;
 
-new QRCode(document.getElementById("qrcode"), {
-text: url,
-width: 200,
-height: 200
+new QRCode(document.getElementById("qrcode"),{
+text:url,
+width:200,
+height:200
 });
+
 }
 
-function finishOrder() {
-localStorage.setItem("finish_" + order, "done");
-alert("注文" + order + " 完成通知しました");
+window.finishOrder = function(){
+
+set(ref(db,'orders/' + shop + '/' + order),{
+status:"done"
+});
+
+alert(order + " 完成しました");
+
 }
 
 </script>
+
+</head>
+
+<body>
+
+<h1>注文管理</h1>
+
+<button onclick="newOrder()">新規注文</button>
+<button onclick="finishOrder()">料理完成</button>
+
+<h2 id="orderNumber"></h2>
+
+<div id="qrcode"></div>
 
 </body>
 </html>
