@@ -40,7 +40,7 @@ const shop = params.get("shop");
 document.getElementById("orderNumber").innerText =
 "注文番号：" + order;
 
-onValue(ref(db,'orders/' + order),(snapshot)=>{
+onValue(ref(db,'orders/' + shop + '/' + order),(snapshot)=>{
 
 const data = snapshot.val();
 
