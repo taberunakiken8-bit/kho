@@ -22,7 +22,7 @@ const db = getDatabase(app);
 
 window.finishOrder = function(){
 
-set(ref(db,'orders/' + order),{
+set(ref(db,'orders/' + shop + '/' + order),{
 status:"done"
 });
 
@@ -51,6 +51,7 @@ alert("完成通知しました");
 <script>
 
 let order = 100;
+const shop = "ramen";
 
 function newOrder() {
 order++;
@@ -60,7 +61,7 @@ document.getElementById("orderNumber").innerText =
 
 document.getElementById("qrcode").innerHTML = "";
 
-let url = "https://taberunakiken8-bit.github.io/kho/costomer.html?order=" + order;
+let url = "https://taberunakiken8-bit.github.io/kho/costomer.html?order=" + shop + "&order=" + order;
 
 new QRCode(document.getElementById("qrcode"), {
 text: url,
